@@ -28,13 +28,6 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   compress: true,
-  // Handle large file uploads
-  api: {
-    bodyParser: {
-      sizeLimit: "50mb",
-    },
-    responseLimit: "50mb",
-  },
 };
 
 export default nextConfig;
