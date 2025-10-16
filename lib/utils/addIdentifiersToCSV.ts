@@ -144,7 +144,7 @@ export async function addIdentifiersToCSV(
             }
 
             // Generate identifier (format: LEAD-XXXXXXXXXXXXXXXX)
-            const identifier = generateLeadIdentifier(record, tableId);
+            const identifier = generateLeadIdentifier();
             identifiersAdded++;
 
             // Build row with identifier - use the SAME delimiter

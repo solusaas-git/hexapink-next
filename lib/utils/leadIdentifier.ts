@@ -28,7 +28,7 @@ export function isValidLeadId(id: string): boolean {
 /**
  * Batch generate identifiers for multiple rows
  */
-export function generateLeadIdentifiers(rows: Record<string, any>[], tableId?: string): string[] {
+export function generateLeadIdentifiers(rows: Record<string, any>[]): string[] {
   return rows.map(() => generateLeadIdentifier());
 }
 
