@@ -4,8 +4,13 @@ import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sanitizeBody } from "@/lib/middleware/sanitize";
+import { addCorsHeaders, handleCors } from "@/lib/middleware/cors";
 
 export async function POST(request: NextRequest) {
+  // Handle CORS preflight
+  const corsResponse = handleCors(request);
+  if (corsResponse) return corsResponse;
+
   try {
     await connectDB();
     
@@ -15,39 +20,43 @@ export async function POST(request: NextRequest) {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         { errorType: "USER_NOT_FOUND", message: "User does not exist." },
         { status: 400 }
       );
+      return addCorsHeaders(response, request);
     }
 
     if (user.status === "Suspended") {
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           errorType: "USER_SUSPENDED",
           message: "Your account has been suspended. Please contact support.",
         },
         { status: 403 }
       );
+      return addCorsHeaders(response, request);
     }
 
     if (!user.is_verified) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           errorType: "USER_NOT_VERIFIED",
           message: "Please verify your email before logging in.",
         },
         { status: 403 }
       );
+      return addCorsHeaders(response, request);
     }
 
     // Validate password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json(
+      const response = NextResponse.json(
         { errorType: "INVALID_PASSWORD", message: "Invalid password." },
         { status: 400 }
       );
+      return addCorsHeaders(response, request);
     }
 
     // Generate tokens
@@ -99,13 +108,14 @@ export async function POST(request: NextRequest) {
       maxAge: 7 * 24 * 60 * 60, // 7 days
     });
 
-    return response;
+    return addCorsHeaders(response, request);
   } catch (error: any) {
     console.error("Login error:", error);
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: error.message || "Internal server error" },
       { status: 500 }
     );
+    return addCorsHeaders(response, request);
   }
 }
 
