@@ -43,8 +43,16 @@ npm install
 ```
 
 ### 3. Environment Setup
+
+#### Development
 ```bash
 cp .env.example .env.local
+```
+
+#### Production
+```bash
+cp .env.production.example .env.production
+# Fill in your actual production values
 ```
 
 Configure your environment variables in `.env.local`:

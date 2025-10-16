@@ -85,10 +85,10 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
-# App URLs
-NEXT_PUBLIC_API_URL=https://your-app.vercel.app/api
-API_URL=https://your-app.vercel.app/api
-NEXT_PUBLIC_APP_URL=https://your-app.vercel.app
+# App URLs (replace with your actual domain)
+NEXT_PUBLIC_APP_URL=https://hexapink.com
+NEXT_PUBLIC_API_URL=https://hexapink.com/api
+API_URL=https://hexapink.com/api
 
 # Session
 SESSION_SECRET=your-production-session-secret
