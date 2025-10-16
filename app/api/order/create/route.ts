@@ -305,7 +305,10 @@ export async function POST(request: NextRequest) {
         if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
           // Use Vercel Blob for production
           const csvBlob = new Blob([csvContent], { type: 'text/csv' });
-          const blobInfo = await saveFileToBlob(csvBlob as any, "orders");
+          
+          // Create a File object with the proper name for blob storage
+          const fileWithName = new File([csvBlob], fileName, { type: 'text/csv' });
+          const blobInfo = await saveFileToBlob(fileWithName, "orders");
           filePath = blobInfo.url;
         } else {
           // Use local filesystem for development
