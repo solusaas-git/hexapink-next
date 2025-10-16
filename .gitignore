@@ -73,7 +73,7 @@ dist
 
 ## Gatsby files
 .cache/
-public
+# public (commented out - we need public folder for Next.js)
 
 ## Storybook build outputs
 .out
@@ -187,9 +187,6 @@ temp/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-## Local uploads (use cloud storage in production)
-public/uploads/
 
 ## Documentation (keep only essential)
 *.md
