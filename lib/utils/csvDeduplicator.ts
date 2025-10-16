@@ -183,6 +183,10 @@ export async function deduplicateCSV(
       console.error("Error reading file for deduplication:", error);
       reject(error);
     });
+    } catch (error) {
+      console.error("Error in deduplicateCSV:", error);
+      reject(error);
+    }
   });
 }
 
