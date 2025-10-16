@@ -68,7 +68,14 @@ export default function ViewFilePage() {
 
     try {
       setLoadingHeaders(true);
-      const response = await fetch(file.path);
+      
+      // Use the API endpoint to fetch file content instead of direct fetch
+      const response = await fetch(`/api/file/download?fileId=${fileId}&format=csv`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
+      }
+      
       const text = await response.text();
       
       // Parse CSV headers only
@@ -79,10 +86,11 @@ export default function ViewFilePage() {
       }
     } catch (error) {
       console.error("Error loading headers:", error);
+      toast.error("Failed to load file headers");
     } finally {
       setLoadingHeaders(false);
     }
-  }, [file?.path]);
+  }, [file?.path, fileId]);
 
   const loadPreview = useCallback(async () => {
     if (!file?.path || csvData.length > 0) return;
@@ -90,17 +98,14 @@ export default function ViewFilePage() {
     try {
       setLoadingPreview(true);
       
-      // Handle blob URLs vs local paths
-      let text: string;
-      if (file.path.startsWith('http')) {
-        // It's a blob URL, fetch directly
-        const response = await fetch(file.path);
-        text = await response.text();
-      } else {
-        // It's a local file path, fetch from our API
-        const response = await fetch(file.path);
-        text = await response.text();
+      // Use the API endpoint to fetch file content instead of direct fetch
+      const response = await fetch(`/api/file/download?fileId=${fileId}&format=csv`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
       }
+      
+      const text = await response.text();
       
       // Parse CSV
       const lines = text.split("\n");
@@ -129,7 +134,7 @@ export default function ViewFilePage() {
     } finally {
       setLoadingPreview(false);
     }
-  }, [file?.path, csvData.length]);
+  }, [file?.path, csvData.length, fileId]);
 
   useEffect(() => {
     fetchFile();
