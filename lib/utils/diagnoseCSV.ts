@@ -1,5 +1,7 @@
 import fs from "fs";
 import { parse } from "csv-parse";
+import { getFileFromBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 /**
  * Diagnose CSV file issues
@@ -14,26 +16,26 @@ export async function diagnoseCSV(
   errors: Array<{ line: number; error: string; sample: string }>;
   firstFewRows: any[];
 }> {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     const errors: Array<{ line: number; error: string; sample: string }> = [];
     const firstFewRows: any[] = [];
     const lineNumber = 0;
     let successfullyParsed = 0;
     
-    // Read file line by line to count total
-    const lineCounter = fs.createReadStream(filePath, { encoding: "utf8" });
-    const lines: string[] = [];
-    let buffer = "";
-    
-    lineCounter.on("data", (chunk) => {
-      buffer += chunk;
-      const newLines = buffer.split("\n");
-      buffer = newLines.pop() || "";
-      lines.push(...newLines);
-    });
-    
-    lineCounter.on("end", () => {
-      if (buffer) lines.push(buffer);
+    try {
+      let fileContent: Buffer;
+      
+      // Check if it's a blob URL or local file path
+      if (filePath.startsWith('http')) {
+        // It's a blob URL, fetch from Vercel Blob
+        fileContent = await getFileFromBlob(filePath);
+      } else {
+        // It's a local file path (for development)
+        fileContent = await fs.promises.readFile(filePath);
+      }
+      
+      const contentString = fileContent.toString('utf-8');
+      const lines = contentString.split('\n');
       const totalLines = lines.length;
       
       // Now parse with error tracking
@@ -49,7 +51,8 @@ export async function diagnoseCSV(
         skip_records_with_error: false, // Don't skip, track errors
       });
       
-      const readStream = fs.createReadStream(filePath);
+      // Create a readable stream from the buffer
+      const readStream = Readable.from(fileContent);
       
       parser.on("readable", function () {
         let record;
@@ -84,7 +87,15 @@ export async function diagnoseCSV(
       });
       
       readStream.pipe(parser);
-    });
+    } catch (error) {
+      console.error("Error in diagnoseCSV:", error);
+      resolve({
+        totalLines: 0,
+        successfullyParsed: 0,
+        errors: [{ line: 0, error: error instanceof Error ? error.message : "Unknown error", sample: "N/A" }],
+        firstFewRows: [],
+      });
+    }
   });
 }
 

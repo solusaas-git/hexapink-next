@@ -76,8 +76,7 @@ export async function POST(request: NextRequest) {
     // Diagnose file first
     console.log("🔍 Diagnosing CSV file...");
     const { diagnoseCSV } = await import("@/lib/utils/diagnoseCSV");
-    const fullFilePath = `public/${filePath}`;
-    const diagnosis = await diagnoseCSV(fullFilePath, finalDelimiter);
+    const diagnosis = await diagnoseCSV(filePath, finalDelimiter);
     
     console.log(`📊 Diagnosis Results:`);
     console.log(`   Total lines: ${diagnosis.totalLines}`);
