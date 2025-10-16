@@ -12,7 +12,9 @@ import Collection from "@/lib/models/Collection";
 import Table from "@/lib/models/Table";
 import PurchasedLead from "@/lib/models/PurchasedLead";
 import { authenticate } from "@/lib/middleware/authenticate";
-import { saveFile } from "@/lib/services/fileService";
+import { saveFile, readFileData } from "@/lib/services/fileService";
+import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 export const maxDuration = 300; // Set max duration for this route
 
@@ -169,22 +171,34 @@ export async function POST(request: NextRequest) {
           console.log(`Starting to filter CSV data, target volume: ${volume}`);
 
           for (const table of tables) {
-            const filePath = path.join(process.cwd(), "public", table.file);
             const delimiter = delimiterMap[table.delimiter] || ",";
             console.log(`Processing table: ${table.tableName}, delimiter: ${table.delimiter}`);
 
-            await new Promise<void>((resolve) => {
-              const parser = parse({
-                delimiter,
-                columns: true,
-                skip_empty_lines: true,
-                relax_quotes: true,
-                relax_column_count: true,
-                trim: true,
-                skip_records_with_error: true,
-              });
+            await new Promise<void>(async (resolve) => {
+              try {
+                // Get file content based on whether it's a blob URL or local path
+                let fileContent: Buffer;
+                if (table.file.startsWith('http')) {
+                  // It's a blob URL, fetch from Vercel Blob
+                  fileContent = await getFileFromBlob(table.file);
+                } else {
+                  // It's a local file path (for development)
+                  const filePath = path.join(process.cwd(), "public", table.file);
+                  fileContent = await fsPromises.readFile(filePath);
+                }
 
-              const readStream = fs.createReadStream(filePath);
+                const parser = parse({
+                  delimiter,
+                  columns: true,
+                  skip_empty_lines: true,
+                  relax_quotes: true,
+                  relax_column_count: true,
+                  trim: true,
+                  skip_records_with_error: true,
+                });
+
+                // Create a readable stream from the buffer
+                const readStream = Readable.from(fileContent);
               let reachedLimit = false;
 
               parser.on("readable", function () {
@@ -260,6 +274,10 @@ export async function POST(request: NextRequest) {
               });
 
               readStream.pipe(parser);
+              } catch (error) {
+                console.error(`Error processing table ${table.tableName}:`, error);
+                resolve();
+              }
             });
 
             if (filteredRows.length >= volume) {
@@ -282,12 +300,24 @@ export async function POST(request: NextRequest) {
         const companyName = userDisplayName.replace(/[^a-z0-9]/gi, '_');
         const fileTitle = `${fileData.title} - ${userDisplayName} - ${dateStr} ${timeStr.replace(/-/g, ':')}`;
         const fileName = `${collectionName}_${companyName}_${dateStr}_${timeStr}.csv`;
-        const filePath = `uploads/orders/${fileName}`;
-        const fullPath = path.join(process.cwd(), "public", filePath);
 
-        // Ensure directory exists
-        await fsPromises.mkdir(path.dirname(fullPath), { recursive: true });
-        await fsPromises.writeFile(fullPath, csvContent, "utf-8");
+        // Save file using the appropriate method (blob or local)
+        let filePath: string;
+        if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+          // Use Vercel Blob for production
+          const csvBlob = new Blob([csvContent], { type: 'text/csv' });
+          const blobInfo = await saveFileToBlob(csvBlob as any, "orders");
+          filePath = blobInfo.url;
+        } else {
+          // Use local filesystem for development
+          const localFilePath = `uploads/orders/${fileName}`;
+          const fullPath = path.join(process.cwd(), "public", localFilePath);
+          
+          // Ensure directory exists
+          await fsPromises.mkdir(path.dirname(fullPath), { recursive: true });
+          await fsPromises.writeFile(fullPath, csvContent, "utf-8");
+          filePath = `/${localFilePath}`;
+        }
 
         // Determine the number of columns in the actual CSV
         const columnCount = headers.length || 0;
@@ -304,7 +334,7 @@ export async function POST(request: NextRequest) {
           volume: actualVolume,
           columns: columnCount,
           status: "Ready",
-          path: `/${filePath}`,
+          path: filePath, // Use the correct path (blob URL or local path)
           orderId: order._id,
         });
 
