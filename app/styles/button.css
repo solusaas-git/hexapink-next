@@ -1,0 +1,25 @@
+.hexagon-button {
+    position: relative;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+    display: inline-block;
+    background-color: #FF6699;
+    color: white;
+    padding: 10px 20px;
+}
+
+.hexagon-button-parent {
+    position: relative;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+    display: inline-block;
+    background-color: #FF6699;
+    color: white;
+    padding: 1px;
+}
+
+.hexagon-button-child {
+    position: relative;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+    display: inline-block;
+    background-color: white;
+    color: #333333;
+}

@@ -1,0 +1,167 @@
+.continue-button {
+    position: relative;
+    display: block;
+    background: var(--hexagon-background-color);
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    text-decoration: none;
+    color: white;
+    box-sizing: border-box;
+    border-style: none;
+  }
+  .continue-button:before,
+  .continue-button:after {
+    background: #FF6699;
+    position: absolute;
+    content: "";
+    width: 150px;
+    left: 0px;
+    height: 25px;
+    z-index: -1;
+    box-sizing: unset;
+    border-radius: 5px;
+  }
+  
+  .continue-button:before {
+    transform: perspective(10px) rotateX(3deg);
+  }
+  .continue-button:after {
+    top: 22px;
+    transform: perspective(10px) rotateX(-3deg);
+  }
+  
+  /* button border style */
+  .continue-button.border:before,
+  .continue-button.border:after {
+    border: 2px solid #FF6699;
+  }
+  .continue-button.border:before {
+    border-bottom: none;
+  }
+  .continue-button.border:after {
+    border-top: none;
+  }
+  /* button hover styles */
+  .continue-button.border:hover:before,
+  .continue-button.border:hover:after {
+    background: white;
+  }
+  .continue-button.border:hover {
+    color: #FF6699;
+    cursor: pointer;
+  }
+
+
+  .createaccount-button {
+    position: relative;
+    display: block;
+    background: var(--hexagon-background-color);
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    text-decoration: none;
+    color: white;
+    box-sizing: border-box;
+    border-style: none;
+  }
+  .createaccount-button:before,
+  .createaccount-button:after {
+    background: #FF6699;
+    position: absolute;
+    content: "";
+    width: 150px;
+    left: 0px;
+    height: 25px;
+    z-index: -1;
+    box-sizing: unset;
+    border-radius: 5px;
+  }
+  
+  .createaccount-button:before {
+    transform: perspective(10px) rotateX(3deg);
+  }
+  .createaccount-button:after {
+    top: 22px;
+    transform: perspective(10px) rotateX(-3deg);
+  }
+  
+  /* button border style */
+  .createaccount-button.border:before,
+  .createaccount-button.border:after {
+    border: 2px solid #FF6699;
+  }
+  .createaccount-button.border:before {
+    border-bottom: none
+  }
+  .createaccount-button.border:after {
+    border-top: none;
+  }
+  /* button hover styles */
+  .createaccount-button.border:hover:before,
+  .createaccount-button.border:hover:after {
+    background: white;
+  }
+  .createaccount-button.border:hover {
+    color: #FF6699;
+    cursor: pointer;
+  }
+
+  .back-button {
+    position: relative;
+    display: block;
+    background: var(--hexagon-background-color);
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    text-decoration: none;
+    color: #333333;
+    box-sizing: border-box;
+    border-style: none;
+  }
+  .back-button:before,
+  .back-button:after {
+    position: absolute;
+    content: "";
+    width: 150px;
+    left: 0px;
+    height: 25px;
+    z-index: -1;
+    box-sizing: unset;
+    border-radius: 5px;
+  }
+  
+  .back-button:before {
+    transform: perspective(10px) rotateX(3deg);
+  }
+  .back-button:after {
+    top: 22px;
+    transform: perspective(10px) rotateX(-3deg);
+  }
+  
+  /* button border style */
+  .back-button.border:before,
+  .back-button.border:after {
+    border: 2px solid #FFCCDD;
+  }
+  .back-button.border:before {
+    border-bottom: none;
+  }
+  .back-button.border:after {
+    border-top: none;
+  }
+  /* button hover styles */
+  .back-button.border:hover:before,
+  .back-button.border:hover:after {
+    background: #FF6699;
+  }
+  .back-button.border:hover {
+    color: var(--hexagon-hover-text-color);
+    cursor: pointer;
+  }

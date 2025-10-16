@@ -1,0 +1,181 @@
+.login-button {
+    position: relative;
+    display: block;
+    background: var(--hexagon-background-color);
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 21px;
+    text-decoration: none;
+    color: white;
+    box-sizing: border-box;
+    border-style: none;
+  }
+  .login-button:before,
+  .login-button:after {
+    background: #FF6699;
+    position: absolute;
+    content: "";
+    width: 150px;
+    left: 0px;
+    height: 25px;
+    z-index: -1;
+    box-sizing: unset;
+    border-radius: 5px;
+  }
+  
+  .login-button:before {
+    transform: perspective(10px) rotateX(3deg);
+  }
+  .login-button:after {
+    top: 22px;
+    transform: perspective(10px) rotateX(-3deg);
+  }
+  
+  /* button border style */
+  .login-button.border:before,
+  .login-button.border:after {
+    border: 2px solid #FF6699;
+  }
+  .login-button.border:before {
+    border-bottom: none;
+  }
+  .login-button.border:after {
+    border-top: none;
+  }
+  /* button hover styles */
+  .login-button.border:hover:before,
+  .login-button.border:hover:after {
+    background: white;
+  }
+  .login-button.border:hover {
+    color: #FF6699;
+    cursor: pointer;
+  }
+
+/* Mobile Reset Password Button */
+.reset-password-button-mobile {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 180px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.reset-password-button-mobile:before,
+.reset-password-button-mobile:after {
+  background: #FF6699;
+  position: absolute;
+  content: "";
+  width: 180px;
+  left: 0px;
+  height: 23px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.reset-password-button-mobile:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+
+.reset-password-button-mobile:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.reset-password-button-mobile.border:before,
+.reset-password-button-mobile.border:after {
+  border: 2px solid #FF6699;
+}
+
+.reset-password-button-mobile.border:before {
+  border-bottom: none;
+}
+
+.reset-password-button-mobile.border:after {
+  border-top: none;
+}
+
+/* button hover styles */
+.reset-password-button-mobile.border:hover:before,
+.reset-password-button-mobile.border:hover:after {
+  background: white;
+}
+
+.reset-password-button-mobile.border:hover {
+  color: #FF6699;
+  cursor: pointer;
+}
+
+/* Reset Password Button */
+.reset-password-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 250px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.reset-password-button:before,
+.reset-password-button:after {
+  background: #FF6699;
+  position: absolute;
+  content: "";
+  width: 250px;
+  left: 0px;
+  height: 23px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.reset-password-button:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+
+.reset-password-button:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.reset-password-button.border:before,
+.reset-password-button.border:after {
+  border: 2px solid #FF6699;
+}
+
+.reset-password-button.border:before {
+  border-bottom: none;
+}
+
+.reset-password-button.border:after {
+  border-top: none;
+}
+
+/* button hover styles */
+.reset-password-button.border:hover:before,
+.reset-password-button.border:hover:after {
+  background: white;
+}
+
+.reset-password-button.border:hover {
+  color: #FF6699;
+  cursor: pointer;
+}

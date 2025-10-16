@@ -1,0 +1,45 @@
+.scroll-hidden {
+  overflow-y: scroll; /* Add the ability to scroll */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scroll-hidden {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Global styles for scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  /* Background of the scrollbar track (white) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a;
+  /* Color of the scrollbar thumb (gray) */
+  border-radius: 10px;
+  /* Rounded edges for the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a6a6a6;
+  /* Color of the scrollbar thumb on hover */
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  /* Options: auto | thin */
+  scrollbar-color: #7a7a7a #ffffff;
+  /* thumb color and track color */
+}

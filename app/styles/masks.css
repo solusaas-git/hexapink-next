@@ -1,0 +1,41 @@
+.card_image_mask {
+  -webkit-mask-image: url(/assets/TheHomePage/image/frame_205.webp);
+  mask-image: url(/assets/TheHomePage/image/frame_205.webp);
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: right;
+}
+
+.card_image_mask_m {
+  -webkit-mask-image: url(/assets/TheHomePage/image/card_mask_m.webp);
+  mask-image: url(/assets/TheHomePage/image/card_mask_m.webp);
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: bottom;
+}
+
+.logo-mask {
+  -webkit-mask-image: url(/assets/TheHomePage/image/HP.webp);
+  mask-image: url(/assets/TheHomePage/image/HP.webp);
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.text-pattern {
+  background: url("/assets/TheHomePage/image/bw-textile.webp");
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-position-x: left;
+  background-position-y: top;
+}
+
+.hexagon {
+  aspect-ratio: 0.866;
+  object-fit: cover;
+  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0);
+  cursor: pointer;
+  transition: 0.2s linear;
+}
+
+

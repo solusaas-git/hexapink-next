@@ -1,0 +1,955 @@
+/* Home Page Styles - Consolidated */
+:root {
+  --hexagon-background-color: transparent;
+  --hexagon-text-color: #333333;
+  --hexagon-border-color: #FFCCDD;
+  --hexagon-hover-background-color: #333333;
+  --hexagon-hover-text-color: #ffccdd;
+}
+/**************************The login page*************************************/
+/*  Login  button */
+.login-button-home {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #333333;
+  box-sizing: border-box;
+  border-style: none;
+}
+.login-button-home:before,
+.login-button-home:after {
+  background: #ffccdd;
+  position: absolute;
+  content: "";
+  width: 150px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.login-button-home:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+.login-button-home:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.login-button-home.border:before,
+.login-button-home.border:after {
+  border: 2px solid #ffccdd;
+}
+.login-button-home.border:before {
+  border-bottom: none;
+}
+.login-button-home.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.login-button-home.border:hover:before,
+.login-button-home.border:hover:after {
+  background: white;
+}
+.login-button-home.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/***********Create Account Button********* */
+.create-account-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 250px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #333333;
+  box-sizing: border-box;
+  border-style: none;
+}
+.create-account-button:before,
+.create-account-button:after {
+  background: #ffccdd;
+  position: absolute;
+  content: "";
+  width: 250px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.create-account-button:before {
+  transform: perspective(15px) rotateX(3deg);
+}
+.create-account-button:after {
+  top: 22px;
+  transform: perspective(15px) rotateX(-3deg);
+}
+
+/* button border style */
+.create-account-button.border:before,
+.create-account-button.border:after {
+  border: 2px solid #ffccdd;
+}
+.create-account-button.border:before {
+  border-bottom: none;
+}
+.create-account-button.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.create-account-button.border:hover:before,
+.create-account-button.border:hover:after {
+  background: white;
+}
+.create-account-button.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/***********Create Account Mobile Button********* */
+.create-account-button-m {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 180px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #333333;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.create-account-button-m:before,
+.create-account-button-m:after {
+  background: #ffccdd;
+  position: absolute;
+  content: "";
+  width: 180px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.create-account-button-m:before {
+  transform: perspective(15px) rotateX(4deg);
+}
+
+.create-account-button-m:after {
+  top: 22px;
+  transform: perspective(15px) rotateX(-4deg);
+}
+
+/* button border style */
+.create-account-button-m.border:before,
+.create-account-button-m.border:after {
+  border: 2px solid #ffccdd;
+}
+
+.create-account-button-m.border:before {
+  border-bottom: none;
+}
+
+.create-account-button-m.border:after {
+  border-top: none;
+}
+
+/* button hover styles */
+.create-account-button-m.border:hover:before,
+.create-account-button-m.border:hover:after {
+  background: white;
+}
+
+.create-account-button-m.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/***********Home Button********* */
+.home-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--hexagon-text-color);
+  box-sizing: border-box;
+  border-style: none;
+}
+.home-button:before,
+.home-button:after {
+  position: absolute;
+  content: "";
+  width: 150px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.home-button:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+.home-button:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.home-button.border:before,
+.home-button.border:after {
+  border: 2px solid #ffccdd;
+}
+.home-button.border:before {
+  border-bottom: none;
+}
+.home-button.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.home-button.border:hover:before,
+.home-button.border:hover:after {
+  background: #ffccdd;
+}
+.home-button.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/*************************Landing Page****************************************/
+/* Hexagon login Button */
+.hexagon-login-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--hexagon-text-color);
+  margin: 40px auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+.hexagon-login-button:before,
+.hexagon-login-button:after {
+  position: absolute;
+  content: "";
+  width: 150px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.hexagon-login-button:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+.hexagon-login-button:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.hexagon-login-button.border:before,
+.hexagon-login-button.border:after,
+#navbar-login-button:before,
+#navbar-login-button:after {
+  background: #FFCCDD !important;
+  position: absolute !important;
+  content: "" !important;
+  width: 150px !important;
+  left: 0px !important;
+  height: 25px !important;
+  z-index: -1 !important;
+  box-sizing: unset !important;
+  border-radius: 5px !important;
+}
+.hexagon-login-button.border:before,
+#navbar-login-button:before {
+  transform: perspective(20px) rotateX(5deg) !important;
+  top: 0 !important;
+}
+.hexagon-login-button.border:after,
+#navbar-login-button:after {
+  top: 26px !important;
+  transform: perspective(20px) rotateX(-5deg) !important;
+}
+/* button hover styles */
+.hexagon-login-button.border:hover:before,
+.hexagon-login-button.border:hover:after {
+  background: var(--hexagon-hover-background-color);
+}
+.hexagon-login-button.border:hover {
+  color: var(--hexagon-hover-text-color);
+  cursor: pointer;
+}
+
+/*********** Header CTA mobile style ********/
+.header-cta-mobile {
+  position: relative;
+  display: block;
+  background: "#FF6699";
+  width: 100px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.header-cta-mobile.border {
+  position: relative;
+  display: block;
+  background: transparent;
+  width: 100px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #333333;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.header-cta-mobile:before,
+.header-cta-mobile:after {
+  background: #ff6699;
+  position: absolute;
+  content: "";
+  width: 100px;
+  left: 0px;
+  height: 24px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.header-cta-mobile:before {
+  transform: perspective(10px) rotateX(5deg);
+}
+.header-cta-mobile:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-5deg);
+}
+
+/* button border style */
+.header-cta-mobile.border:before,
+.header-cta-mobile.border:after {
+  border: 2px solid #ff6699;
+  background-color: transparent;
+}
+.header-cta-mobile.border:before {
+  height: 22px;
+  border-bottom: none;
+}
+.header-cta-mobile.border:after {
+  height: 22px;
+  top: 22px;
+  border-top: none;
+}
+/* button hover styles */
+.header-cta-mobile.border:hover:before,
+.header-cta-mobile.border:hover:after {
+  background: white;
+}
+.header-cta-mobile.border:hover {
+  color: #ff6699;
+  cursor: pointer;
+}
+
+/****** Hexagon Signup button  ******/
+
+.hexagon-signup-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 250px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #ffccdd;
+  margin: 40px auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+.hexagon-signup-button:before,
+.hexagon-signup-button:after {
+  background: #333333;
+  position: absolute;
+  content: "";
+  width: 250px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.hexagon-signup-button:before {
+  transform: perspective(15px) rotateX(3deg);
+}
+.hexagon-signup-button:after {
+  top: 22px;
+  transform: perspective(15px) rotateX(-3deg);
+}
+
+/* button border style */
+.hexagon-signup-button.border:before,
+.hexagon-signup-button.border:after,
+#navbar-signup-button:before,
+#navbar-signup-button:after {
+  background: #ff6699 !important;
+  position: absolute !important;
+  content: "" !important;
+  width: 250px !important;
+  left: 0px !important;
+  height: 26px !important;
+  z-index: -1 !important;
+  box-sizing: unset !important;
+  border-radius: 5px !important;
+}
+.hexagon-signup-button.border:before,
+#navbar-signup-button:before {
+  transform: perspective(20px) rotateX(5deg) !important;
+  top: 0 !important;
+}
+.hexagon-signup-button.border:after,
+#navbar-signup-button:after {
+  top: 26px !important;
+  transform: perspective(20px) rotateX(-5deg) !important;
+}
+/* button hover styles */
+.hexagon-signup-button.border:hover:before,
+.hexagon-signup-button.border:hover:after {
+  background: white;
+}
+.hexagon-signup-button.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/********* Custome file button style *********/
+.custom-file-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 250px;
+  height: 70px;
+  line-height: 55px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: white;
+  margin: 30px auto;
+  box-sizing: border-box;
+  border-style: none;
+  cursor: pointer;
+}
+.custom-file-button:before,
+.custom-file-button:after {
+  background: #ff6699;
+  position: absolute;
+  content: "";
+  width: 250px;
+  left: 0px;
+  height: 26px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.custom-file-button:before {
+  transform: perspective(20px) rotateX(5deg);
+}
+.custom-file-button:after {
+  top: 26px;
+  transform: perspective(20px) rotateX(-5deg);
+}
+
+/* button border style */
+.custom-file-button.border:before,
+.custom-file-button.border:after {
+  border: 2px solid #ff6699;
+}
+.custom-file-button.border:before {
+  border-bottom: none;
+}
+.custom-file-button.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.custom-file-button.border:hover:before,
+.custom-file-button.border:hover:after {
+  background: white;
+}
+.custom-file-button.border:hover {
+  color: #ff6699;
+}
+
+/**********Custom File Buttom Mobile********* */
+.custom-file-button-m {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 200px;
+  height: 30px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  box-sizing: border-box;
+  border-style: none;
+}
+.custom-file-button-m:before,
+.custom-file-button-m:after {
+  background: #ff6699;
+  position: absolute;
+  content: "";
+  width: 200px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.custom-file-button-m:before {
+  transform: perspective(20px) rotateX(5deg);
+}
+.custom-file-button-m:after {
+  top: 25px;
+  transform: perspective(20px) rotateX(-5deg);
+}
+
+/* button border style */
+.custom-file-button-m.border:before,
+.custom-file-button-m.border:after {
+  border: 2px solid #ff6699;
+}
+.custom-file-button-m.border:before {
+  border-bottom: none;
+}
+.custom-file-button-m.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.custom-file-button-m.border:hover:before,
+.custom-file-button-m.border:hover:after {
+  background: white;
+}
+.custom-file-button-m.border:hover {
+  color: #ff6699;
+  cursor: pointer;
+}
+
+/*********** Black Custom file button style ********/
+.custom-file-button-b {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 250px;
+  height: 75px;
+  line-height: 55px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #ffccdd;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+.custom-file-button-b:before,
+.custom-file-button-b:after {
+  background: #333333;
+  position: absolute;
+  content: "";
+  width: 250px;
+  left: 0px;
+  height: 26px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.custom-file-button-b:before {
+  transform: perspective(15px) rotateX(3deg);
+}
+.custom-file-button-b:after {
+  top: 25px;
+  transform: perspective(15px) rotateX(-3deg);
+}
+
+/* button border style */
+.custom-file-button-b.border:before,
+.custom-file-button-b.border:after {
+  border: 2px solid #333333;
+}
+.custom-file-button-b.border:before {
+  border-bottom: none;
+}
+.custom-file-button-b.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.custom-file-button-b.border:hover:before,
+.custom-file-button-b.border:hover:after {
+  background: white;
+}
+.custom-file-button-b.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/*********** Contact us CTA mobile style ********/
+.contact-us-cta-mobile {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 200px;
+  line-height: 54px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #ffccdd;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-style: none;
+}
+.contact-us-cta-mobile:before,
+.contact-us-cta-mobile:after {
+  background: #333333;
+  position: absolute;
+  content: "";
+  width: 200px;
+  left: 0px;
+  height: 22px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.contact-us-cta-mobile:before {
+  transform: perspective(10px) rotateX(3deg);
+}
+.contact-us-cta-mobile:after {
+  top: 22px;
+  transform: perspective(10px) rotateX(-3deg);
+}
+
+/* button border style */
+.contact-us-cta-mobile.border:before,
+.contact-us-cta-mobile.border:after {
+  border: 2px solid #333333;
+}
+.contact-us-cta-mobile.border:before {
+  border-bottom: none;
+}
+.contact-us-cta-mobile.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.contact-us-cta-mobile.border:hover:before,
+.contact-us-cta-mobile.border:hover:after {
+  background: white;
+}
+.contact-us-cta-mobile.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+.hexapink-card-locationtab {
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+  border-radius: 10px;
+}
+.hexapink-card-foldertab {
+  clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+  border-radius: 10px;
+  text-align: right;
+}
+
+.homesectiontwo-clip {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 80% 100%, 0% 100%);
+}
+
+.cofoundertab-small-clip {
+  clip-path: polygon(9% 0%, 91% 0%, 100% 50%, 91% 100%, 9% 100%, 0% 50%);
+}
+.cofoundertab-big-clip {
+  clip-path: polygon(3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%, 0% 50%);
+}
+
+/* ******************Mobile Version***************** */
+/* sign up button */
+.hexagon-signup-button-m {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 120px;
+  height: 24px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #ffccdd;
+  /* margin: 40px auto; */
+  box-sizing: border-box;
+  border-style: none;
+  cursor: pointer;
+}
+.hexagon-signup-button-m:before,
+.hexagon-signup-button-m:after {
+  background: #333333;
+  position: absolute;
+  content: "";
+  width: 120px;
+  left: 0px;
+  height: 24px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.hexagon-signup-button-m:before {
+  transform: perspective(5px) rotateX(3deg);
+}
+.hexagon-signup-button-m:after {
+  top: 26px;
+  transform: perspective(5px) rotateX(-3deg);
+}
+
+/* button border style */
+.hexagon-signup-button-m.border:before,
+.hexagon-signup-button-m.border:after {
+  border: 2px solid var(--hexagon-border-color);
+}
+.hexagon-signup-button-m.border:before {
+  border-bottom: none;
+}
+.hexagon-signup-button-m.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.hexagon-signup-button-m.border:hover:before,
+.hexagon-signup-button-m.border:hover:after {
+  background: white;
+}
+.hexagon-signup-button-m.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+/* login button */
+.hexagon-login-button-m {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 120px;
+  height: 24px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--hexagon-text-color);
+  /* margin: 40px auto; */
+  box-sizing: border-box;
+  border-style: none;
+}
+.hexagon-login-button-m:before,
+.hexagon-login-button-m:after {
+  position: absolute;
+  content: "";
+  width: 120px;
+  left: 0px;
+  height: 24px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.hexagon-login-button-m:before {
+  transform: perspective(5px) rotateX(3deg);
+}
+.hexagon-login-button-m:after {
+  top: 25px;
+  transform: perspective(5px) rotateX(-3deg);
+}
+
+/* button border style */
+.hexagon-login-button-m.border:before,
+.hexagon-login-button-m.border:after {
+  background: white;
+  border: 2px solid var(--hexagon-border-color);
+}
+.hexagon-login-button-m.border:before {
+  border-bottom: none;
+}
+.hexagon-login-button-m.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.hexagon-login-button-m.border:hover:before,
+.hexagon-login-button-m.border:hover:after {
+  background: var(--hexagon-hover-background-color);
+}
+.hexagon-login-button-m.border:hover {
+  color: var(--hexagon-hover-text-color);
+}
+
+
+.talkus-paper-clip {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 75% 100%, 0% 100%);
+}
+
+/* ************************Send message Button ***********************/
+.send-message-button {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 240px;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #333333;
+  box-sizing: border-box;
+  border-style: none;
+}
+.send-message-button:before,
+.send-message-button:after {
+  background: #ffccdd;
+  position: absolute;
+  content: "";
+  width: 240px;
+  left: 0px;
+  height: 26px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.send-message-button:before {
+  transform: perspective(15px) rotateX(3deg);
+}
+.send-message-button:after {
+  top: 25px;
+  transform: perspective(15px) rotateX(-3deg);
+}
+
+/* button border style */
+.send-message-button.border:before,
+.send-message-button.border:after {
+  border: 2px solid #ffccdd;
+}
+.send-message-button.border:before {
+  border-bottom: none;
+}
+.send-message-button.border:after {
+  border-top: none;
+}
+/* button hover styles */
+.send-message-button.border:hover:before,
+.send-message-button.border:hover:after {
+  background: white;
+}
+.send-message-button.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
+
+/* ************************ Mobile Send message Button  ***********************/
+.send-message-button-mobile {
+  position: relative;
+  display: block;
+  background: var(--hexagon-background-color);
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #333333;
+  box-sizing: border-box;
+  border-style: none;
+}
+
+.send-message-button-mobile:before,
+.send-message-button-mobile:after {
+  background: #ffccdd;
+  position: absolute;
+  content: "";
+  width: 200px;
+  left: 0px;
+  height: 25px;
+  z-index: -1;
+  box-sizing: unset;
+  border-radius: 5px;
+}
+
+.send-message-button-mobile:before {
+  transform: perspective(20px) rotateX(5deg);
+}
+
+.send-message-button-mobile:after {
+  top: 25px;
+  transform: perspective(20px) rotateX(-5deg);
+}
+
+/* button border style */
+.send-message-button-mobile.border:before,
+.send-message-button-mobile.border:after {
+  border: 2px solid #ffccdd;
+}
+
+.send-message-button-mobile.border:before {
+  border-bottom: none;
+}
+
+.send-message-button-mobile.border:after {
+  border-top: none;
+}
+
+/* button hover styles */
+.send-message-button-mobile.border:hover:before,
+.send-message-button-mobile.border:hover:after {
+  background: white;
+}
+
+.send-message-button-mobile.border:hover {
+  color: #333333;
+  cursor: pointer;
+}
