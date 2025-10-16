@@ -54,6 +54,13 @@ export default function RootLayout({
           httpEquiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://www.hexapink.com https://hexapink.com https://*.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https://www.hexapink.com https://hexapink.com https://challenges.cloudflare.com https://*.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com https://*.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'"
         />
+        {/* Force favicon refresh with cache busting */}
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <link rel="icon" type="image/webp" href="/logo.webp?v=2" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=2" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png?v=2" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+        <link rel="shortcut icon" href="/favicon.ico?v=2" />
       </head>
       <body
         className={`${kanit.variable} ${raleway.variable} antialiased`}
