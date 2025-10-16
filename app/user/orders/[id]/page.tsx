@@ -208,7 +208,8 @@ export default function ViewOrderPage() {
                     <div className="w-12 h-12 rounded-lg overflow-hidden border-2 border-white flex-shrink-0">
                       <NextImage
                         src={
-                          (files[0].collectionId.mobileImage || files[0].collectionId.image)?.startsWith('/')
+                          (files[0].collectionId.mobileImage || files[0].collectionId.image)?.startsWith('/') ||
+                          (files[0].collectionId.mobileImage || files[0].collectionId.image)?.startsWith('http')
                             ? (files[0].collectionId.mobileImage || files[0].collectionId.image)!
                             : `/${files[0].collectionId.mobileImage || files[0].collectionId.image}`
                         }

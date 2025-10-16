@@ -175,7 +175,8 @@ export default function OrdersPage() {
                               {collection.mobileImage || collection.image ? (
                                 <NextImage
                                   src={
-                                    (collection.mobileImage || collection.image)?.startsWith('/')
+                                    (collection.mobileImage || collection.image)?.startsWith('/') ||
+                                    (collection.mobileImage || collection.image)?.startsWith('http')
                                       ? (collection.mobileImage || collection.image)!
                                       : `/${collection.mobileImage || collection.image}`
                                   }
