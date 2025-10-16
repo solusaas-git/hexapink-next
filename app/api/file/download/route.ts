@@ -8,6 +8,7 @@ import { authenticate } from "@/lib/middleware/authenticate";
 import File from "@/lib/models/File";
 import connectDB from "@/lib/db";
 import { getFileFromBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 export async function GET(req: NextRequest) {
   try {
@@ -86,7 +87,8 @@ export async function GET(req: NextRequest) {
           skip_records_with_error: true,
         });
 
-        const readStream = fs.createReadStream(csvFilePath);
+        // Create a readable stream from the CSV content
+        const readStream = Readable.from(csvContent);
 
         parser.on("readable", function () {
           let record;
