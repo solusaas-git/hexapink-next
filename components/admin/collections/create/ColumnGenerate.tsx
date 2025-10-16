@@ -73,14 +73,14 @@ export default function ColumnGenerate({
     }
   }, [selectedColumnId, columns]);
 
-  useEffect(() => {
+  const updateColumn = (updatedData: Column) => {
     if (selectedColumnId) {
       const updatedColumns = columns.map((column) =>
-        column.id === selectedColumnId ? columnData : column
+        column.id === selectedColumnId ? updatedData : column
       );
       setColumns(updatedColumns);
     }
-  }, [columnData, selectedColumnId, columns, setColumns]);
+  };
 
   const handleClickNewColumn = () => {
     const Ids = columns.map((column) => column.id);
@@ -176,21 +176,25 @@ export default function ColumnGenerate({
                   type="text"
                   value={columnData.name}
                   disabled={disabled ?? false}
-                  onChange={(e) =>
-                    setColumnData({ ...columnData, name: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const updatedData = { ...columnData, name: e.target.value };
+                    setColumnData(updatedData);
+                    updateColumn(updatedData);
+                  }}
                   error=""
                 />
                 <div className="flex items-center gap-2">
                   <SwitchButton
                     value={!columnData.showToClient}
                     disabled={disabled ?? false}
-                    onChange={() =>
-                      setColumnData((prev) => ({
-                        ...prev,
-                        showToClient: !prev.showToClient,
-                      }))
-                    }
+                    onChange={() => {
+                      const updatedData = {
+                        ...columnData,
+                        showToClient: !columnData.showToClient,
+                      };
+                      setColumnData(updatedData);
+                      updateColumn(updatedData);
+                    }}
                   />
                   <span className="text-left">
                     Don't show this column in clients file
@@ -208,7 +212,11 @@ export default function ColumnGenerate({
                       <button
                         key={type}
                         disabled={disabled}
-                        onClick={() => setColumnData({ ...columnData, type })}
+                        onClick={() => {
+                          const updatedData = { ...columnData, type };
+                          setColumnData(updatedData);
+                          updateColumn(updatedData);
+                        }}
                         className={`flex items-center gap-2 px-2 py-1 rounded-full border ${
                           columnData.type === type
                             ? "border-dark-blue text-dark-blue"
@@ -240,12 +248,14 @@ export default function ColumnGenerate({
                   <SwitchButton
                     value={columnData.isAdditionalFee}
                     disabled={disabled ?? false}
-                    onChange={() =>
-                      setColumnData((prev) => ({
-                        ...prev,
-                        isAdditionalFee: !prev.isAdditionalFee,
-                      }))
-                    }
+                    onChange={() => {
+                      const updatedData = {
+                        ...columnData,
+                        isAdditionalFee: !columnData.isAdditionalFee,
+                      };
+                      setColumnData(updatedData);
+                      updateColumn(updatedData);
+                    }}
                   />
                   <span className="text-left">This column has an additional fee</span>
                 </div>
@@ -256,21 +266,25 @@ export default function ColumnGenerate({
                       value={columnData.additionalFee}
                       disabled={disabled ?? false}
                       isCurrency={true}
-                      onChange={(value) =>
-                        setColumnData({ ...columnData, additionalFee: value })
-                      }
+                      onChange={(value) => {
+                        const updatedData = { ...columnData, additionalFee: value };
+                        setColumnData(updatedData);
+                        updateColumn(updatedData);
+                      }}
                       error=""
                     />
                     <div className="flex items-center gap-2">
                       <SwitchButton
                         value={columnData.optional ?? false}
                         disabled={disabled ?? false}
-                        onChange={() =>
-                          setColumnData((prev) => ({
-                            ...prev,
-                            optional: !prev.optional,
-                          }))
-                        }
+                        onChange={() => {
+                          const updatedData = {
+                            ...columnData,
+                            optional: !columnData.optional,
+                          };
+                          setColumnData(updatedData);
+                          updateColumn(updatedData);
+                        }}
                       />
                       <span className="text-left">the column is optional</span>
                     </div>
