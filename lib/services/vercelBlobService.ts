@@ -33,7 +33,7 @@ export const saveFileToBlob = async (
       pathname: blob.pathname,
       contentType: blob.contentType,
       contentDisposition: blob.contentDisposition,
-      size: blob.size,
+      size: buffer.length, // Use buffer length instead of blob.size
     };
   } catch (error) {
     console.error("Error saving file to Vercel Blob:", error);
