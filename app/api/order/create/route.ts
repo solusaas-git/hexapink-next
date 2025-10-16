@@ -13,6 +13,7 @@ import PurchasedLead from "@/lib/models/PurchasedLead";
 import { authenticate } from "@/lib/middleware/authenticate";
 import { saveFile } from "@/lib/services/fileService";
 import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
+import { put } from "@vercel/blob";
 import { Readable } from "stream";
 
 export const maxDuration = 300; // Set max duration for this route
@@ -304,13 +305,16 @@ export async function POST(request: NextRequest) {
         // Save file using the appropriate method (blob or local)
         let filePath: string;
         if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
-          // Use Vercel Blob for production
-          const csvBlob = new Blob([csvContent], { type: 'text/csv' });
+          // Use Vercel Blob for production - upload directly with proper filename
+          const timestamp = Date.now();
+          const blobFileName = `${timestamp}-${fileName}`;
+          const pathname = `uploads/orders/${blobFileName}`;
           
-          // Create a File object with the proper name for blob storage
-          const fileWithName = new File([csvBlob], fileName, { type: 'text/csv' });
-          const blobInfo = await saveFileToBlob(fileWithName, "orders");
-          filePath = blobInfo.url;
+          const blob = await put(pathname, csvContent, {
+            access: 'public',
+            contentType: 'text/csv',
+          });
+          filePath = blob.url;
         } else {
           // Use local filesystem for development
           const localFilePath = `uploads/orders/${fileName}`;
