@@ -30,7 +30,6 @@ const nextConfig: NextConfig = {
   compress: true,
   // Production optimizations
   productionBrowserSourceMaps: false,
-  swcMinify: true,
 };
 
 export default nextConfig;

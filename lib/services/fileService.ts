@@ -2,10 +2,10 @@ import path from "path";
 import fs from "fs/promises";
 import csvParser from "csv-parser";
 import File from "@/lib/models/File";
-import { createReadStream } from "fs";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { saveFileToBlob, getFileFromBlob, deleteFileFromBlob } from "./vercelBlobService";
+import { Readable } from "stream";
 
 export const getPurchasedLeadsData = async (
   collectionId: string,
@@ -75,7 +75,6 @@ export const readFileData = async (filePath: string): Promise<any[]> => {
       const rows: any[] = [];
       return new Promise((resolve, reject) => {
         // Create a readable stream from the buffer
-        const { Readable } = require('stream');
         const stream = Readable.from(fileContent);
         
         stream
