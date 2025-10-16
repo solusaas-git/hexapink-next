@@ -233,7 +233,7 @@ export async function hasIdentifierColumn(
   filePath: string,
   delimiter: string = ","
 ): Promise<boolean> {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     try {
       const delimiterMap: Record<string, string> = {
         comma: ",",
@@ -243,12 +243,21 @@ export async function hasIdentifierColumn(
       };
       const actualDelimiter = delimiterMap[delimiter] || delimiter;
 
-      // Ensure we have the full path (add public/ if needed)
-      let fullFilePath = filePath;
-      if (!filePath.startsWith('/') && !filePath.includes('public/')) {
-        fullFilePath = path.join(process.cwd(), 'public', filePath);
-      } else if (!filePath.startsWith('/')) {
-        fullFilePath = path.join(process.cwd(), filePath);
+      let fileContent: Buffer;
+      
+      // Check if it's a blob URL or local file path
+      if (filePath.startsWith('http')) {
+        // It's a blob URL, fetch from Vercel Blob
+        fileContent = await getFileFromBlob(filePath);
+      } else {
+        // It's a local file path (for development)
+        let fullFilePath = filePath;
+        if (!filePath.startsWith('/') && !filePath.includes('public/')) {
+          fullFilePath = path.join(process.cwd(), 'public', filePath);
+        } else if (!filePath.startsWith('/')) {
+          fullFilePath = path.join(process.cwd(), filePath);
+        }
+        fileContent = await fs.promises.readFile(fullFilePath);
       }
 
       const parser = parse({
@@ -262,7 +271,7 @@ export async function hasIdentifierColumn(
         skip_records_with_error: true,
       });
 
-      const readStream = fs.createReadStream(fullFilePath);
+      const readStream = Readable.from(fileContent);
       
       parser.on("readable", function () {
         const record = parser.read();
@@ -281,7 +290,8 @@ export async function hasIdentifierColumn(
       });
 
       readStream.pipe(parser);
-    } catch {
+    } catch (error) {
+      console.error("Error checking for identifier column:", error);
       resolve(false);
     }
   });
