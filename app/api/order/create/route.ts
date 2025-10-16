@@ -290,15 +290,16 @@ export async function POST(request: NextRequest) {
           rowsWithLeadIds = filteredRows; // Save for purchased leads tracking
         }
         
-        // Save CSV file with collection name + company name + date + time
+        // Save CSV file with collection name + company name + order ID + date + time
         const now = new Date();
         const dateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
         const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
         const collectionName = fileData.title.replace(/[^a-z0-9]/gi, '_');
         const userDisplayName = user.company || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || 'user';
         const companyName = userDisplayName.replace(/[^a-z0-9]/gi, '_');
-        const fileTitle = `${fileData.title} - ${userDisplayName} - ${dateStr} ${timeStr.replace(/-/g, ':')}`;
-        const fileName = `${collectionName}_${companyName}_${dateStr}_${timeStr}.csv`;
+        const orderIdShort = order._id.toString().slice(-8); // Last 8 characters of order ID
+        const fileTitle = `${fileData.title} - ${userDisplayName} - Order ${orderIdShort} - ${dateStr} ${timeStr.replace(/-/g, ':')}`;
+        const fileName = `${collectionName}_${companyName}_Order${orderIdShort}_${dateStr}_${timeStr}.csv`;
 
         // Save file using the appropriate method (blob or local)
         let filePath: string;
