@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import { authenticate } from "@/lib/middleware/authenticate";
 import File from "@/lib/models/File";
 import connectDB from "@/lib/db";
+import { getFileFromBlob } from "@/lib/services/vercelBlobService";
 
 export async function GET(req: NextRequest) {
   try {
@@ -39,21 +40,31 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
     }
 
-    const csvFilePath = path.join(process.cwd(), "public", fileDoc.path || "");
-
-    // Check if file exists
-    try {
-      await fsPromises.access(csvFilePath);
-    } catch {
-      return NextResponse.json(
-        { message: "File not found on disk" },
-        { status: 404 }
-      );
+    // Get file content based on whether it's a blob URL or local path
+    let csvContent: string;
+    if (fileDoc.path?.startsWith('http')) {
+      // It's a blob URL, fetch from Vercel Blob
+      const buffer = await getFileFromBlob(fileDoc.path);
+      csvContent = buffer.toString('utf-8');
+    } else {
+      // It's a local file path (for development)
+      const csvFilePath = path.join(process.cwd(), "public", fileDoc.path || "");
+      
+      // Check if file exists
+      try {
+        await fsPromises.access(csvFilePath);
+      } catch {
+        return NextResponse.json(
+          { message: "File not found on disk" },
+          { status: 404 }
+        );
+      }
+      
+      csvContent = await fsPromises.readFile(csvFilePath, "utf-8");
     }
 
     if (format === "csv") {
       // Return CSV file directly
-      const csvContent = await fsPromises.readFile(csvFilePath, "utf-8");
       return new NextResponse(csvContent, {
         headers: {
           "Content-Type": "text/csv",

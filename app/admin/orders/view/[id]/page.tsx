@@ -88,8 +88,14 @@ export default function OrderViewPage() {
       return;
     }
 
-    // Open file in new tab for download
-    window.open(`/${file.path}`, '_blank');
+    // Handle blob URLs vs local paths
+    if (file.path.startsWith('http')) {
+      // It's a blob URL, open directly
+      window.open(file.path, '_blank');
+    } else {
+      // It's a local file path, open with public prefix
+      window.open(`/${file.path}`, '_blank');
+    }
     toast.success("Download started");
   };
 

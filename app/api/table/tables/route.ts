@@ -5,6 +5,7 @@ import { parse } from "csv-parse";
 import connectDB from "@/lib/db";
 import Table from "@/lib/models/Table";
 import { authenticate } from "@/lib/middleware/authenticate";
+import { getFileFromBlob } from "@/lib/services/vercelBlobService";
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,8 +45,17 @@ export async function POST(request: NextRequest) {
             };
           }
 
-          const filePath = path.join(process.cwd(), "public", table.file);
-          const fileContent = await fs.readFile(filePath, "utf-8");
+          // Get file content based on whether it's a blob URL or local path
+          let fileContent: string;
+          if (table.file.startsWith('http')) {
+            // It's a blob URL, fetch from Vercel Blob
+            const buffer = await getFileFromBlob(table.file);
+            fileContent = buffer.toString('utf-8');
+          } else {
+            // It's a local file path (for development)
+            const filePath = path.join(process.cwd(), "public", table.file);
+            fileContent = await fs.readFile(filePath, "utf-8");
+          }
 
           // Parse CSV with robust configuration
           const records: Record<string, string>[] = [];

@@ -89,8 +89,18 @@ export default function ViewFilePage() {
 
     try {
       setLoadingPreview(true);
-      const response = await fetch(file.path);
-      const text = await response.text();
+      
+      // Handle blob URLs vs local paths
+      let text: string;
+      if (file.path.startsWith('http')) {
+        // It's a blob URL, fetch directly
+        const response = await fetch(file.path);
+        text = await response.text();
+      } else {
+        // It's a local file path, fetch from our API
+        const response = await fetch(file.path);
+        text = await response.text();
+      }
       
       // Parse CSV
       const lines = text.split("\n");

@@ -2,24 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
+import { getFileFromBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const { fileName, delimiterKey } = await request.json();
-
-    // Define the directory where files are stored
-    const uploadsDir = path.resolve(process.cwd(), "public");
-
-    // Construct the full file path
-    const filePath = path.join(uploadsDir, fileName);
-
-    // Check if file exists
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json(
-        { error: "File not found" },
-        { status: 404 }
-      );
-    }
 
     // Determine the delimiter from the query parameters
     const delimiterMap: Record<string, string> = {
@@ -38,6 +26,27 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // Get file content based on whether it's a blob URL or local path
+    let fileContent: Buffer;
+    if (fileName.startsWith('http')) {
+      // It's a blob URL, fetch from Vercel Blob
+      fileContent = await getFileFromBlob(fileName);
+    } else {
+      // It's a local file path (for development)
+      const uploadsDir = path.resolve(process.cwd(), "public");
+      const filePath = path.join(uploadsDir, fileName);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return NextResponse.json(
+          { error: "File not found" },
+          { status: 404 }
+        );
+      }
+      
+      fileContent = await fs.promises.readFile(filePath);
+    }
+
     // Read and parse the CSV file
     const results: any[] = [];
     let errorCount = 0;
@@ -47,10 +56,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const MAX_SAME_LINE_SKIPS = 50; // Maximum times to skip the same line before forcing continue
 
     return new Promise((resolve) => {
-      const fileStream = fs.createReadStream(filePath, { 
-        encoding: 'utf8',
-        highWaterMark: 256 * 1024 // Increased to 256KB chunks for better performance
-      });
+      // Create a readable stream from the buffer
+      const fileStream = Readable.from(fileContent);
 
       const parser = fileStream.pipe(
         parse({
