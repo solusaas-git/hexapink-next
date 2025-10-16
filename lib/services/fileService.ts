@@ -5,6 +5,7 @@ import File from "@/lib/models/File";
 import { createReadStream } from "fs";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
+import { saveFileToBlob, getFileFromBlob, deleteFileFromBlob } from "./vercelBlobService";
 
 export const getPurchasedLeadsData = async (
   collectionId: string,
@@ -54,16 +55,30 @@ export const getPurchasedLeadsData = async (
 
 export const readFileData = async (filePath: string): Promise<any[]> => {
   try {
-    const absolutePath = path.resolve(filePath);
-    const fileExtension = path.extname(absolutePath).toLowerCase();
+    let fileContent: Buffer;
+    
+    // Check if it's a blob URL or local file path
+    if (filePath.startsWith('http')) {
+      // It's a blob URL, fetch from Vercel Blob
+      fileContent = await getFileFromBlob(filePath);
+    } else {
+      // It's a local file path (for development)
+      const absolutePath = path.resolve(filePath);
+      fileContent = await fs.readFile(absolutePath);
+    }
+
+    const fileExtension = path.extname(filePath).toLowerCase();
 
     if (fileExtension === ".json") {
-      const fileContent = await fs.readFile(absolutePath, "utf-8");
-      return JSON.parse(fileContent);
+      return JSON.parse(fileContent.toString('utf-8'));
     } else if (fileExtension === ".csv") {
       const rows: any[] = [];
       return new Promise((resolve, reject) => {
-        createReadStream(absolutePath)
+        // Create a readable stream from the buffer
+        const { Readable } = require('stream');
+        const stream = Readable.from(fileContent);
+        
+        stream
           .pipe(csvParser())
           .on("data", (row) => rows.push(row))
           .on("end", () => resolve(rows))
@@ -83,30 +98,55 @@ export const saveFile = async (
   folder: string
 ): Promise<string> => {
   try {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // Use Vercel Blob for production, local filesystem for development
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+      const blobInfo = await saveFileToBlob(file, folder);
+      return blobInfo.url; // Return the blob URL
+    } else {
+      // Development mode - use local filesystem
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
 
-    // Create upload directory path
-    const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
-    
-    // Ensure directory exists
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
+      // Create upload directory path
+      const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
+      
+      // Ensure directory exists
+      if (!existsSync(uploadDir)) {
+        await mkdir(uploadDir, { recursive: true });
+      }
+
+      // Generate unique filename
+      const timestamp = Date.now();
+      const filename = `${timestamp}-${file.name}`;
+      const filepath = path.join(uploadDir, filename);
+
+      // Save file
+      await writeFile(filepath, buffer);
+
+      // Return relative path for database storage
+      return `uploads/${folder}/${filename}`;
     }
-
-    // Generate unique filename
-    const timestamp = Date.now();
-    const filename = `${timestamp}-${file.name}`;
-    const filepath = path.join(uploadDir, filename);
-
-    // Save file
-    await writeFile(filepath, buffer);
-
-    // Return relative path for database storage
-    return `uploads/${folder}/${filename}`;
   } catch (error) {
     console.error("Error saving file:", error);
     throw new Error("Failed to save file");
+  }
+};
+
+export const deleteFile = async (filePath: string): Promise<void> => {
+  try {
+    // Check if it's a blob URL
+    if (filePath.startsWith('http')) {
+      await deleteFileFromBlob(filePath);
+    } else {
+      // Local file deletion (for development)
+      const absolutePath = path.join(process.cwd(), "public", filePath);
+      if (existsSync(absolutePath)) {
+        await fs.unlink(absolutePath);
+      }
+    }
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    throw new Error("Failed to delete file");
   }
 };
 
