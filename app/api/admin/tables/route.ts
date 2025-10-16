@@ -104,8 +104,15 @@ export async function POST(request: NextRequest) {
     let finalColumns = columns;
     if (!hasId) {
       console.log("No lead_id column found, adding lead_id column...");
-      await addIdentifiersToCSV(filePath, finalDelimiter, tempTable._id.toString());
+      const identifierResult = await addIdentifiersToCSV(filePath, finalDelimiter, tempTable._id.toString());
       console.log("✓ Lead identifiers added successfully (format: LEAD-XXXXXXXXXXXXXXXX)");
+      
+      // Update the file path if it's a blob URL (new blob was created)
+      if (filePath.startsWith('http') && identifierResult.newFilePath) {
+        filePath = identifierResult.newFilePath;
+        console.log(`Updated file path to new blob URL: ${filePath}`);
+      }
+      
       // Update columns array to include lead_id as first column
       finalColumns = ['lead_id', ...columns];
     } else {
@@ -148,6 +155,7 @@ export async function POST(request: NextRequest) {
     // Update table entry with final row count after deduplication
     tempTable.leads = finalRowCount;
     tempTable.columns = finalColumns; // Store column names array (including lead_id), not count
+    tempTable.file = filePath; // Update file path if it changed (e.g., new blob URL with identifiers)
     await tempTable.save();
 
     // Return additional info for validation
