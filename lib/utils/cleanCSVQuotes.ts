@@ -1,5 +1,4 @@
 import fs from "fs";
-import readline from "readline";
 import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
 import { Readable } from "stream";
 

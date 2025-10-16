@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fsPromises } from "fs";
-import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse";
 import * as XLSX from "xlsx";

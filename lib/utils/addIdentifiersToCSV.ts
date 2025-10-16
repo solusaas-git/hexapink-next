@@ -59,7 +59,6 @@ export async function addIdentifiersToCSV(
 
       // Track skipped rows from parser
       let parserErrors = 0;
-      const records: any[] = [];
       
       const parser = parse({
         delimiter: actualDelimiter,

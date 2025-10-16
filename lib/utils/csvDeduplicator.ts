@@ -3,7 +3,6 @@ import { parse } from "csv-parse";
 import * as path from "path";
 import Table from "@/lib/models/Table";
 import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
-import { existsSync } from "fs";
 import { Readable } from "stream";
 
 interface DedupeResult {
