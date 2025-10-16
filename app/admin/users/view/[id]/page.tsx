@@ -493,7 +493,7 @@ export default function UserViewPage() {
                         <button
                           onClick={() => {
                             if (file.path) {
-                              window.open(`/${file.path}`, '_blank');
+                              window.open(file.path.startsWith('http') ? file.path : `/${file.path}`, '_blank');
                             } else {
                               toast.error("File path not available");
                             }

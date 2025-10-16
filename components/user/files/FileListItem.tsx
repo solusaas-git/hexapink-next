@@ -63,7 +63,7 @@ export default function FileListItem({
         <div className="w-[8%] p-3 flex items-center justify-center">
           {data.collection?.mobileImage ? (
             <NextImage
-              src={data.collection.mobileImage.startsWith('/') ? data.collection.mobileImage : `/${data.collection.mobileImage}`}
+              src={data.collection.mobileImage.startsWith('/') || data.collection.mobileImage.startsWith('http') ? data.collection.mobileImage : `/${data.collection.mobileImage}`}
               alt={data.collection.title}
               width={40}
               height={40}

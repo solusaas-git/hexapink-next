@@ -347,7 +347,7 @@ export default function UserDashboard() {
                             {file.collectionId?.mobileImage ? (
                               <div className="w-8 h-8 bg-[#F0F0FA] border border-light-gray-3 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <NextImage
-                                  src={file.collectionId.mobileImage.startsWith('/') ? file.collectionId.mobileImage : `/${file.collectionId.mobileImage}`}
+                                  src={file.collectionId.mobileImage.startsWith('/') || file.collectionId.mobileImage.startsWith('http') ? file.collectionId.mobileImage : `/${file.collectionId.mobileImage}`}
                                   alt={file.collectionId.title || file.title}
                                   width={32}
                                   height={32}
@@ -357,7 +357,7 @@ export default function UserDashboard() {
                             ) : file.collectionId?.image ? (
                               <div className="w-8 h-8 bg-[#F0F0FA] border border-light-gray-3 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <NextImage
-                                  src={file.collectionId.image.startsWith('/') ? file.collectionId.image : `/${file.collectionId.image}`}
+                                  src={file.collectionId.image.startsWith('/') || file.collectionId.image.startsWith('http') ? file.collectionId.image : `/${file.collectionId.image}`}
                                   alt={file.collectionId.title || file.title}
                                   width={32}
                                   height={32}
@@ -367,7 +367,7 @@ export default function UserDashboard() {
                             ) : file.image ? (
                               <div className="w-8 h-8 bg-[#F0F0FA] border border-light-gray-3 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <NextImage
-                                  src={file.image.startsWith('/') ? file.image : `/${file.image}`}
+                                  src={file.image.startsWith('/') || file.image.startsWith('http') ? file.image : `/${file.image}`}
                                   alt={file.title}
                                   width={32}
                                   height={32}

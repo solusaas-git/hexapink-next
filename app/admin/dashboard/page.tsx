@@ -434,7 +434,7 @@ export default function AdminDashboard() {
                           <div className="relative">
                             {collection.image ? (
                               <NextImage
-                                src={collection.image.startsWith('/') ? collection.image : `/${collection.image}`}
+                                src={collection.image.startsWith('/') || collection.image.startsWith('http') ? collection.image : `/${collection.image}`}
                                 alt={collection.title}
                                 width={48}
                                 height={48}

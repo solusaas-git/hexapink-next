@@ -54,7 +54,8 @@ export default function CollectionView({
             {data.mobileImage || data.image ? (
               <NextImage
                 src={
-                  (data.mobileImage || data.image)?.startsWith('/')
+                  (data.mobileImage || data.image)?.startsWith('/') ||
+                  (data.mobileImage || data.image)?.startsWith('http')
                     ? (data.mobileImage || data.image)!
                     : `/${data.mobileImage || data.image}`
                 }
@@ -95,7 +96,8 @@ export default function CollectionView({
           {data.mobileImage || data.image ? (
             <NextImage
               src={
-                (data.mobileImage || data.image)?.startsWith('/')
+                (data.mobileImage || data.image)?.startsWith('/') ||
+                (data.mobileImage || data.image)?.startsWith('http')
                   ? (data.mobileImage || data.image)!
                   : `/${data.mobileImage || data.image}`
               }

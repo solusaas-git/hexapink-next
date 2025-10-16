@@ -94,7 +94,7 @@ export default function OrderViewPage() {
       window.open(file.path, '_blank');
     } else {
       // It's a local file path, open with public prefix
-      window.open(`/${file.path}`, '_blank');
+      window.open(file.path.startsWith('http') ? file.path : `/${file.path}`, '_blank');
     }
     toast.success("Download started");
   };

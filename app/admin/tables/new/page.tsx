@@ -325,7 +325,7 @@ export default function NewTablePage() {
                           </p>
                           {importResult.duplicatesFile && (
                             <a
-                              href={`/${importResult.duplicatesFile}`}
+                              href={importResult.duplicatesFile.startsWith('http') ? importResult.duplicatesFile : `/${importResult.duplicatesFile}`}
                               download
                               className="text-xs bg-dark-blue text-white px-3 py-1 rounded hover:bg-opacity-90 transition-all"
                             >
@@ -341,7 +341,7 @@ export default function NewTablePage() {
                           </p>
                           {importResult.dbDuplicatesFile && (
                             <a
-                              href={`/${importResult.dbDuplicatesFile}`}
+                              href={importResult.dbDuplicatesFile.startsWith('http') ? importResult.dbDuplicatesFile : `/${importResult.dbDuplicatesFile}`}
                               download
                               className="text-xs bg-purple-600 text-white px-3 py-1 rounded hover:bg-opacity-90 transition-all"
                             >

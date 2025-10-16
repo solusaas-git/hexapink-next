@@ -409,7 +409,7 @@ export default function ViewFilePage() {
                       </label>
                       <NextImage
                         src={
-                          file.collection.mobileImage.startsWith("/")
+                          file.collection.mobileImage.startsWith("/") || file.collection.mobileImage.startsWith("http")
                             ? file.collection.mobileImage
                             : `/${file.collection.mobileImage}`
                         }
