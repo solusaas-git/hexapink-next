@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   compress: true,
+  // Production optimizations
+  productionBrowserSourceMaps: false,
+  swcMinify: true,
   // Content Security Policy headers
   async headers() {
     return [
