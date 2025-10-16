@@ -5,13 +5,13 @@
       "maxDuration": 30
     },
     "app/api/file/upload/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     },
     "app/api/order/create/route.ts": {
       "maxDuration": 60
     },
     "app/api/table/file/route.ts": {
-      "maxDuration": 60
+      "maxDuration": 300
     }
   },
   "env": {
