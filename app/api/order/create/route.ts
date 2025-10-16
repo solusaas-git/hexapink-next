@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fsPromises } from "fs";
-import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse";
 import connectDB from "@/lib/db";
@@ -12,7 +11,7 @@ import Collection from "@/lib/models/Collection";
 import Table from "@/lib/models/Table";
 import PurchasedLead from "@/lib/models/PurchasedLead";
 import { authenticate } from "@/lib/middleware/authenticate";
-import { saveFile, readFileData } from "@/lib/services/fileService";
+import { saveFile } from "@/lib/services/fileService";
 import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
 import { Readable } from "stream";
 

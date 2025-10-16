@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     // Clean malformed quotes first
     console.log("🧹 Cleaning malformed quotes...");
     const { cleanCSVQuotes } = await import("@/lib/utils/cleanCSVQuotes");
-    const cleanResult = await cleanCSVQuotes(fullFilePath, finalDelimiter);
+    const cleanResult = await cleanCSVQuotes(filePath, finalDelimiter);
     if (cleanResult.cleaned > 0) {
       console.log(`✓ Fixed ${cleanResult.cleaned} lines with quote issues`);
     }

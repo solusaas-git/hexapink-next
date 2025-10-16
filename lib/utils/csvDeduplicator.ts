@@ -121,7 +121,7 @@ export async function deduplicateCSV(
           // For blob URLs, we need to create a new blob file
           const csvContent = convertRecordsToCSV(records, actualDelimiter);
           const blob = new Blob([csvContent], { type: 'text/csv' });
-          const newBlobInfo = await saveFileToBlob(blob as any, "tables");
+          await saveFileToBlob(blob as any, "tables");
           // Note: We can't overwrite the original blob, so we return the same URL
           // In a real implementation, you might want to delete the old blob and use the new one
         } else {
