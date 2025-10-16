@@ -7,6 +7,8 @@ import { authenticate } from "@/lib/middleware/authenticate";
 import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse";
+import { getFileFromBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 export const maxDuration = 300;
 
@@ -124,9 +126,25 @@ export async function POST(request: NextRequest) {
     for (const table of tables) {
       if (!table.file) continue;
 
-      const filePath = path.join(process.cwd(), "public", table.file);
+      let fileContent: Buffer;
       
-      if (!fs.existsSync(filePath)) continue;
+      // Check if it's a blob URL or local file path
+      if (table.file.startsWith('http')) {
+        // It's a blob URL, fetch from Vercel Blob
+        try {
+          fileContent = await getFileFromBlob(table.file);
+        } catch (error) {
+          console.log(`Failed to fetch blob file: ${table.file}`, error);
+          continue;
+        }
+      } else {
+        // It's a local file path (for development)
+        const filePath = path.join(process.cwd(), "public", table.file);
+        
+        if (!fs.existsSync(filePath)) continue;
+        
+        fileContent = await fs.promises.readFile(filePath);
+      }
 
       // Get delimiter
       const delimiterMap: Record<string, string> = {
@@ -151,7 +169,8 @@ export async function POST(request: NextRequest) {
           skip_records_with_error: true,
         });
 
-        const readStream = fs.createReadStream(filePath);
+        // Create a readable stream from the buffer content
+        const readStream = Readable.from(fileContent);
 
         parser.on("readable", function () {
           let record;
