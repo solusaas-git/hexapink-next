@@ -21,6 +21,7 @@ interface Transaction {
   price: number;
   status: string;
   createdAt: string;
+  description?: string;
 }
 
 // Stripe Payment Form Component
@@ -312,21 +313,26 @@ export default function WalletPage() {
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      transaction.type === "Topup" ? "bg-green-100" : "bg-blue-100"
+                      transaction.type === "Topup" ? "bg-green-100" : "bg-red-100"
                     }`}>
                       {transaction.type === "Topup" ? (
                         <ArrowUpCircle className="text-green-600" size={24} />
                       ) : (
-                        <ArrowDownCircle className="text-blue-600" size={24} />
+                        <ArrowDownCircle className="text-red-600" size={24} />
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-dark">{transaction.type}</p>
+                      <p className="font-semibold text-dark">
+                        {transaction.type === "Order" ? "Lead Purchase" : transaction.type}
+                      </p>
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-sm text-light-dark">{transaction.paymentmethod || "N/A"}</p>
                         <span className="text-xs text-light-dark">•</span>
                         <p className="text-sm text-light-dark">{formatDate(transaction.createdAt)}</p>
                       </div>
+                      {transaction.description && (
+                        <p className="text-xs text-gray-500 mt-1">{transaction.description}</p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-4">

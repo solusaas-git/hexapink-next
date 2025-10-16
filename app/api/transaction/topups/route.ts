@@ -17,23 +17,23 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status") || "All";
 
-    // Build query - only fetch topup transactions
+    // Build query - fetch both topup and order transactions
     const query: any = { 
       userId,
-      type: "Topup"
+      type: { $in: ["Topup", "Order"] }
     };
     
     if (status !== "All") {
       query.status = status;
     }
 
-    // Fetch recent topups for this user
-    const topups = await Transaction.find(query)
+    // Fetch recent transactions for this user
+    const transactions = await Transaction.find(query)
       .sort({ createdAt: -1 })
-      .limit(10)
+      .limit(20)
       .lean();
 
-    return NextResponse.json(topups, { status: 200 });
+    return NextResponse.json(transactions, { status: 200 });
   } catch (error) {
     console.error("Error fetching recent topups:", error);
     return NextResponse.json(

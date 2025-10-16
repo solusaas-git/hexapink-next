@@ -390,6 +390,7 @@ export async function POST(request: NextRequest) {
       userId: user._id,
       price: prix,
       type: "Order",
+      description: `Lead purchase - ${files.length} file(s), ${volume.toLocaleString()} leads`,
       paymentmethod: paymentMethodType === "Balance" 
         ? "Balance" 
         : paymentMethodType === "Bank Transfer" 
