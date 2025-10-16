@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Save the CSV file
-    const filePath = await saveFile(csvFile, "tables");
+    let filePath = await saveFile(csvFile, "tables");
 
     // Parse CSV - use provided delimiter or auto-detect
     const { columns, rowCount, detectedDelimiter, totalLines } = await parseCSV(csvFile);
