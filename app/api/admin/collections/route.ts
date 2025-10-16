@@ -57,18 +57,29 @@ export async function POST(request: NextRequest) {
     const columns = columnsStr ? JSON.parse(columnsStr) : [];
     
     // Handle image uploads
-    const imageFile = formData.get("image") as File | null;
+    const imageFile = formData.get("desktopImage") as File | null;
     const mobileImageFile = formData.get("mobileImage") as File | null;
+    
+    console.log("Image upload debug:", {
+      hasImageFile: !!imageFile,
+      imageFileSize: imageFile?.size,
+      hasMobileImageFile: !!mobileImageFile,
+      mobileImageFileSize: mobileImageFile?.size,
+    });
     
     let imagePath = "";
     let mobileImagePath = "";
     
     if (imageFile && imageFile.size > 0) {
+      console.log("Uploading desktop image...");
       imagePath = await saveFile(imageFile, "collections");
+      console.log("Desktop image uploaded to:", imagePath);
     }
     
     if (mobileImageFile && mobileImageFile.size > 0) {
+      console.log("Uploading mobile image...");
       mobileImagePath = await saveFile(mobileImageFile, "collections");
+      console.log("Mobile image uploaded to:", mobileImagePath);
     }
 
     await connectDB();

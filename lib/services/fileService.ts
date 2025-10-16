@@ -98,11 +98,16 @@ export const saveFile = async (
 ): Promise<string> => {
   try {
     // Use Vercel Blob for production, local filesystem for development
-    if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+    // Also check if blob token is properly configured
+    const hasBlobToken = process.env.BLOB_READ_WRITE_TOKEN && 
+                        process.env.BLOB_READ_WRITE_TOKEN !== 'your_blob_token_here';
+    
+    if ((process.env.NODE_ENV === 'production' || process.env.VERCEL) && hasBlobToken) {
       const blobInfo = await saveFileToBlob(file, folder);
       return blobInfo.url; // Return the blob URL
     } else {
-      // Development mode - use local filesystem
+      // Development mode or blob token not configured - use local filesystem
+      console.log("Using local filesystem for file upload (blob token not configured)");
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
