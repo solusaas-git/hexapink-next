@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { parse } from "csv-parse";
 import { generateLeadIdentifier } from "./leadIdentifier";
+import { getFileFromBlob, saveFileToBlob } from "@/lib/services/vercelBlobService";
+import { Readable } from "stream";
 
 /**
  * Add unique identifiers to a CSV file
@@ -17,7 +19,7 @@ export async function addIdentifiersToCSV(
   totalRows: number;
   identifiersAdded: number;
 }> {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const delimiterMap: Record<string, string> = {
         comma: ",",
@@ -27,22 +29,39 @@ export async function addIdentifiersToCSV(
       };
       const actualDelimiter = delimiterMap[delimiter] || delimiter;
 
-      // Ensure we have the full path (add public/ if needed)
-      let fullFilePath = filePath;
-      if (!filePath.startsWith('/') && !filePath.includes('public/')) {
-        fullFilePath = path.join(process.cwd(), 'public', filePath);
-      } else if (!filePath.startsWith('/')) {
-        fullFilePath = path.join(process.cwd(), filePath);
-      }
+      let fileContent: Buffer;
+      let newFilePath: string;
 
-      // Generate new file path
-      const dir = path.dirname(fullFilePath);
-      const ext = path.extname(fullFilePath);
-      const basename = path.basename(fullFilePath, ext);
-      const newFilePath = path.join(dir, `${basename}_with_ids${ext}`);
+      // Check if it's a blob URL or local file path
+      if (filePath.startsWith('http')) {
+        // It's a blob URL, fetch from Vercel Blob
+        fileContent = await getFileFromBlob(filePath);
+        // For blob URLs, we'll create a new blob with identifiers
+        const timestamp = Date.now();
+        newFilePath = `uploads/tables/${timestamp}-with-ids.csv`;
+      } else {
+        // It's a local file path (for development)
+        let fullFilePath = filePath;
+        if (!filePath.startsWith('/') && !filePath.includes('public/')) {
+          fullFilePath = path.join(process.cwd(), 'public', filePath);
+        } else if (!filePath.startsWith('/')) {
+          fullFilePath = path.join(process.cwd(), filePath);
+        }
+
+        fileContent = await fs.promises.readFile(fullFilePath);
+        
+        // Generate new file path
+        const dir = path.dirname(fullFilePath);
+        const ext = path.extname(fullFilePath);
+        const basename = path.basename(fullFilePath, ext);
+        newFilePath = path.join(dir, `${basename}_with_ids${ext}`);
+      }
 
       // Track skipped rows from parser
       let parserErrors = 0;
+      let totalRows = 0;
+      let identifiersAdded = 0;
+      const records: any[] = [];
       
       const parser = parse({
         delimiter: actualDelimiter,
@@ -70,8 +89,18 @@ export async function addIdentifiersToCSV(
         }
       });
 
-      const readStream = fs.createReadStream(fullFilePath);
-      const writeStream = fs.createWriteStream(newFilePath);
+      const readStream = Readable.from(fileContent);
+      let writeStream: any;
+      let csvContent = '';
+
+      // Initialize write stream based on file type
+      if (filePath.startsWith('http')) {
+        // For blob URLs, we'll collect content in memory
+        csvContent = '';
+      } else {
+        // For local files, use file stream
+        writeStream = fs.createWriteStream(newFilePath);
+      }
 
       let totalRows = 0;
       let identifiersAdded = 0;
@@ -109,7 +138,11 @@ export async function addIdentifiersToCSV(
               headers = Object.keys(record);
               // Add lead_id column as first column - use the SAME delimiter
               const headerRow = ['lead_id', ...headers].map(h => escapeCSVValue(h)).join(actualDelimiter);
-              writeStream.write(headerRow + '\n');
+              if (filePath.startsWith('http')) {
+                csvContent += headerRow + '\n';
+              } else {
+                writeStream.write(headerRow + '\n');
+              }
               headerWritten = true;
             }
 
@@ -120,7 +153,11 @@ export async function addIdentifiersToCSV(
             // Build row with identifier - use the SAME delimiter
             const values = headers.map(header => escapeCSVValue(record[header] || ""));
             const rowLine = [escapeCSVValue(identifier), ...values].join(actualDelimiter);
-            writeStream.write(rowLine + '\n');
+            if (filePath.startsWith('http')) {
+              csvContent += rowLine + '\n';
+            } else {
+              writeStream.write(rowLine + '\n');
+            }
           } catch (error) {
             skippedRows++;
             console.error(`Error processing row ${totalRows}:`, error);
@@ -131,12 +168,12 @@ export async function addIdentifiersToCSV(
 
       parser.on("error", (err) => {
         console.error("Error parsing CSV:", err);
-        writeStream.end();
+        if (writeStream) writeStream.end();
         reject(err);
       });
 
-      parser.on("end", () => {
-        writeStream.end();
+      parser.on("end", async () => {
+        if (writeStream) writeStream.end();
         
         const totalSkipped = skippedRows + parserErrors;
         console.log(`✓ Added ${identifiersAdded} identifiers to ${totalRows} rows`);
@@ -147,22 +184,41 @@ export async function addIdentifiersToCSV(
           console.warn(`   - Processing errors: ${skippedRows}`);
         }
         
-        // Replace original file with new file
-        fs.rename(newFilePath, fullFilePath, (err) => {
-          if (err) {
-            reject(err);
+        try {
+          if (filePath.startsWith('http')) {
+            // For blob URLs, save the new content to blob storage
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const blobInfo = await saveFileToBlob(blob as any, "tables");
+            
+            resolve({
+              newFilePath: blobInfo.url,
+              totalRows: identifiersAdded,
+              identifiersAdded,
+            });
           } else {
+            // For local files, replace original file with new file
+            let fullFilePath = filePath;
+            if (!filePath.startsWith('/') && !filePath.includes('public/')) {
+              fullFilePath = path.join(process.cwd(), 'public', filePath);
+            } else if (!filePath.startsWith('/')) {
+              fullFilePath = path.join(process.cwd(), filePath);
+            }
+            
+            await fs.promises.rename(newFilePath, fullFilePath);
+            
             // Return the relative path (without public/)
             const relativePath = filePath.includes('public/') 
               ? filePath.replace(/^.*public\//, '') 
               : filePath;
             resolve({
               newFilePath: relativePath,
-              totalRows: identifiersAdded, // Return actual rows processed
+              totalRows: identifiersAdded,
               identifiersAdded,
             });
           }
-        });
+        } catch (error) {
+          reject(error);
+        }
       });
 
       readStream.pipe(parser);
