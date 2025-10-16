@@ -59,8 +59,6 @@ export async function addIdentifiersToCSV(
 
       // Track skipped rows from parser
       let parserErrors = 0;
-      let totalRows = 0;
-      let identifiersAdded = 0;
       const records: any[] = [];
       
       const parser = parse({
