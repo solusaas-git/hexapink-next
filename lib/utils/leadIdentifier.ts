@@ -10,11 +10,11 @@ import crypto from "crypto";
  * - Reference across system
  */
 export function generateLeadIdentifier(row: Record<string, any>, tableId?: string): string {
-  // Generate deterministic hash from row data
-  const hash = generateDeterministicHash(row, tableId);
+  // Generate completely random hash (not based on data)
+  const randomHash = crypto.randomBytes(8).toString("hex").toUpperCase();
   
   // Format as LEAD-XXXXXXXXXXXXXXXX
-  return `LEAD-${hash}`;
+  return `LEAD-${randomHash}`;
 }
 
 /**
