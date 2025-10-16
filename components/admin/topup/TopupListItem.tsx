@@ -162,7 +162,7 @@ export const TopupListItem: React.FC<TopupListItemProps> = ({
             </div>
             <div className="space-y-4">
               {data.receipts?.map((receipt, index) => {
-                const receiptPath = receipt.startsWith('/') ? receipt : `/${receipt}`;
+                const receiptPath = receipt.startsWith('/') || receipt.startsWith('http') ? receipt : `/${receipt}`;
                 const isPdf = receipt.toLowerCase().endsWith('.pdf');
 
                 return (

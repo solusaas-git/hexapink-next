@@ -152,7 +152,7 @@ const EditReview: React.FC<EditReviewProps> = ({
           {!avatar && existingAvatar && (
             <div className="flex items-center gap-3 p-3 bg-light-gray-2 border border-light-gray-3 rounded-lg">
               <NextImage
-                src={existingAvatar.startsWith('/') ? existingAvatar : `/${existingAvatar}`}
+                src={existingAvatar.startsWith('/') || existingAvatar.startsWith('http') ? existingAvatar : `/${existingAvatar}`}
                 alt="Current avatar"
                 width={64}
                 height={64}

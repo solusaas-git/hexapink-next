@@ -143,7 +143,7 @@ export default function ReviewViewPage() {
             {/* Avatar */}
             {review.avatar && (
               <NextImage
-                src={review.avatar.startsWith('/') ? review.avatar : `/${review.avatar}`}
+                src={review.avatar.startsWith('/') || review.avatar.startsWith('http') ? review.avatar : `/${review.avatar}`}
                 alt={`${review.firstName} ${review.lastName}`}
                 width={96}
                 height={96}

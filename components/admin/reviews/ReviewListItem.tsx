@@ -73,7 +73,7 @@ export const ReviewListItem: React.FC<ReviewListItemProps> = ({
           <div className="flex items-center gap-3">
             {data.avatar && (
               <NextImage
-                src={data.avatar.startsWith('/') ? data.avatar : `/${data.avatar}`}
+                src={data.avatar.startsWith('/') || data.avatar.startsWith('http') ? data.avatar : `/${data.avatar}`}
                 alt={`${data.firstName} ${data.lastName}`}
                 width={40}
                 height={40}
