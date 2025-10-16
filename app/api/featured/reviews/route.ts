@@ -1,8 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Review from "@/lib/models/Review";
+import { addCorsHeaders, handleCors } from "@/lib/middleware/cors";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Handle CORS preflight
+  const corsResponse = handleCors(request);
+  if (corsResponse) return corsResponse;
+
   try {
     await connectDB();
 
@@ -11,13 +16,15 @@ export async function GET() {
       .select("-__v")
       .sort({ createdAt: -1 });
 
-    return NextResponse.json(featuredReviews);
+    const response = NextResponse.json(featuredReviews);
+    return addCorsHeaders(response, request);
   } catch (error: any) {
     console.error("Featured reviews error:", error);
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: error.message || "Failed to fetch featured reviews" },
       { status: 500 }
     );
+    return addCorsHeaders(response, request);
   }
 }
 
