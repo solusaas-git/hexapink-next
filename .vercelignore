@@ -50,8 +50,5 @@ coverage/
 tmp/
 temp/
 
-# Local uploads (use cloud storage in production)
-public/uploads/
-
 # Socket.IO related (not supported on Vercel)
 SOCKET_IO_MIGRATION.md
