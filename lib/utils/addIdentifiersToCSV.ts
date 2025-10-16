@@ -12,8 +12,7 @@ import { Readable } from "stream";
  */
 export async function addIdentifiersToCSV(
   filePath: string,
-  delimiter: string = ",",
-  tableId?: string
+  delimiter: string = ","
 ): Promise<{
   newFilePath: string;
   totalRows: number;

@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     let finalColumns = columns;
     if (!hasId) {
       console.log("No lead_id column found, adding lead_id column...");
-      const identifierResult = await addIdentifiersToCSV(filePath, finalDelimiter, tempTable._id.toString());
+      const identifierResult = await addIdentifiersToCSV(filePath, finalDelimiter);
       console.log("✓ Lead identifiers added successfully (format: LEAD-XXXXXXXXXXXXXXXX)");
       
       // Update the file path if it's a blob URL (new blob was created)

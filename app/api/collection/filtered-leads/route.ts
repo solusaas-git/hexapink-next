@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
         });
 
         parser.on("error", (err) => {
-          console.error(`Error parsing file ${filePath}:`, err);
+          console.error(`Error parsing file ${table.file}:`, err);
           resolve(0);
         });
 
