@@ -76,12 +76,9 @@ DATABASE_URL=mongodb+srv://username:password@cluster.mongodb.net/hexapink
 JWT_SECRET=your-production-jwt-secret-key
 JWT_REFRESH_SECRET=your-production-jwt-refresh-secret
 
-# Email Configuration
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-production-email@gmail.com
-SMTP_PASS=your-production-app-password
-EMAIL_FROM=your-production-email@gmail.com
+# Email Configuration (stored in database)
+# SMTP settings are managed through admin panel and stored in MongoDB
+# No environment variables needed for email configuration
 
 # Stripe (Production Keys)
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
